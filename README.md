@@ -1,34 +1,64 @@
-Task Tracker CLI
+# 🗂️ Task Tracker CLI
+![Java](https://img.shields.io/badge/Java-8%2B-orange)
+![CLI](https://img.shields.io/badge/Type-CLI-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-A simple, file-backed command-line Task Tracker application implemented in Java. This project provides a minimal yet complete example of a CLI tool that manages tasks (add, update, delete, change status, list) and persists data to a JSON file. It's intended as a teaching/example project for students, lecturers, and recruiters to inspect core design decisions, simple persistence, and CLI patterns.
+> A simple, file-backed **command-line Task Tracker** application implemented in **Java**.  
+> Designed as a minimal yet complete example of a real-world CLI tool with persistence.
 
-## Key Features
-- ✅ Add, update, and delete tasks from the command line
-- ⏳ Mark tasks as In-Progress or Done
-- 📋 List tasks (all or filtered by status)
-- 💾 File-based JSON persistence (`tasks.json`) with atomic write handling (Windows-aware)
-- 🧩 Clear separation of concerns: CLI parsing, business logic, and storage
-- 🧪 Test scaffolding with JUnit (build script can download JUnit jars)
+---
 
-## Project Structure
+## 📖 Overview
 
-- `src/main/java/` — Application source code
-  - `TaskTrackerCLI.java` — Application entry point (main)
-  - `CLIParser*.java` — Command-line parsing and help display
-  - `TaskManager*.java` — Business logic for task operations
-  - `JSONStore*.java` — File-based persistence implementation
-- `src/test/java/` — Unit / integration test sources (JUnit-based)
-- `build/` — Build artifacts created by the provided build scripts
-- `lib/` — Third-party JARs (JUnit and friends). `build.sh` can download these automatically
-- `build.bat`, `build.sh` — Simple build scripts for Windows and Unix-like systems
-- `tasks.json` (runtime) — Default data file created by `JSONStoreImpl` (not stored in repo)
+**Task Tracker CLI** allows users to manage tasks directly from the terminal.  
+It supports adding, updating, deleting, listing, and tracking task status while persisting data safely to a local JSON file.
 
-## Technologies & Tools
+This project is intended as a **teaching and demonstration tool** for:
+- 🎓 Software engineering students  
+- 👨‍🏫 Lecturers reviewing design decisions  
+- 👨‍💻 Recruiters assessing backend & CLI fundamentals  
+
+---
+
+## ✨ Key Features
+
+- ➕ Add, update, and delete tasks from the command line  
+- ⏳ Mark tasks as **In-Progress** or **Done**  
+- 📋 List all tasks or filter by status  
+- 💾 File-based JSON persistence (`tasks.json`)  
+- 🔒 Atomic write handling (Windows-aware)  
+- 🧩 Clear separation of concerns (CLI · Logic · Storage)  
+- 🧪 JUnit test scaffolding (auto-download supported)
+
+---
+
+## 🏗️ Project Structure
+
+```text
+project-root/
+│
+├── src/
+│   ├── main/java/
+│   │   ├── TaskTrackerCLI.java   # Application entry point
+│   │   ├── CLIParser*.java       # CLI parsing & help
+│   │   ├── TaskManager*.java     # Business logic
+│   │   └── JSONStore*.java       # Persistence layer
+│   │
+│   └── test/java/                # JUnit test sources
+│
+├── lib/                          # Third-party JARs (JUnit, etc.)
+├── build/                        # Generated build artifacts
+├── build.bat                     # Windows build script
+├── build.sh                      # Linux/macOS build script
+└── tasks.json                    # Runtime data file (generated)
+
+
+## 🧰 Technologies & Tools
 - Java (language/runtime) — compatible with Java 8+ (JDK 11+ recommended)
 - JUnit 5 — used by the test sources (scripts download JUnit jars)
 - Shell / Batch scripts — `build.sh` and `build.bat` for convenience
 
-## Prerequisites
+## ⚙️ Prerequisites
 - JDK installed (11+ recommended). Verify with:
 
 ```bash
@@ -38,16 +68,16 @@ javac -version
 
 - `curl` (Linux/macOS) is used by `build.sh` to download JUnit jars if needed.
 
-## Build Instructions
+## 🛠️ Build Instructions
 
-Windows (quick):
+🪟 Windows (quick):
 
 ```powershell
 # from repository root (where build.bat is located)
 .\\build.bat
 ```
 
-Unix / Linux / macOS (quick):
+🐧Unix / Linux / macOS (quick):
 
 ```bash
 # from repository root
@@ -59,7 +89,7 @@ Notes:
 - `build.bat` compiles the main classes and creates `build/classes/main`. It prints a note about JUnit setup; tests are skipped unless you add JUnit jars in `lib/`.
 - `build.sh` will attempt to download JUnit artifacts into `lib/`, compile main and test classes, and run tests via the JUnit Console Launcher.
 
-Manual build (javac):
+🔧 Manual Build (javac):
 
 Windows:
 
@@ -75,8 +105,7 @@ mkdir -p build/classes/main
 javac -d build/classes/main src/main/java/*.java
 ```
 
-## How to Run
-
+## ▶️ Running the Application
 After building, run the CLI from the repository root.
 
 Windows (class path separator `;`):
@@ -91,7 +120,7 @@ Linux / macOS (class path separator `:`):
 java -cp build/classes/main TaskTrackerCLI <command> [args]
 ```
 
-Example commands (from project root):
+🧪 Example Usage (from project root):
 
 ```bash
 # Add a task
@@ -116,8 +145,7 @@ java -cp build/classes/main TaskTrackerCLI list todo
 java -cp build/classes/main TaskTrackerCLI delete 1
 ```
 
-Expected output examples (abbreviated):
-
+📤 Sample Output
 ```
 Task added successfully (ID: 1)
 Tasks:
@@ -126,7 +154,7 @@ ID: 1   | Status: TODO        | Description: Buy groceries
 Total: 1 task(s)
 ```
 
-## Development Notes
+## 🧠 Development Notes
 
 - Storage: `JSONStoreImpl` implements a lightweight, dependency-free JSON persistence layer. It uses manual string parsing and a simple JSON generator to avoid an external JSON library, and employs a `ReentrantReadWriteLock` plus atomic write (temp file + move) to reduce corruption risk on concurrent access and on Windows.
 - Architecture: Clear separation of responsibilities:
@@ -137,7 +165,7 @@ Total: 1 task(s)
 - Error handling: Custom exception types (`CLIException`, `TaskException`, `StorageException`) are used to distinguish failure modes and present clearer error messages to users.
 - Tests: Basic JUnit tests are present under `src/test/java/`. `build.sh` can fetch JUnit jars and run tests with the JUnit Console Launcher.
 
-## Limitations & Future Improvements
+## 🚧 Limitations & Future Improvements
 
 - JSON handling is implemented manually — replace with a robust JSON library (Jackson / Gson) for production use.
 - No dependency management system (Maven/Gradle). Migrating to Maven or Gradle would simplify dependency handling, builds, and packaging.
@@ -146,16 +174,15 @@ Total: 1 task(s)
 - CLI UX: add richer parsing (picocli / commons-cli), command descriptions, and interactive mode.
 - Tests: expand unit and integration tests, and add CI integration (GitHub Actions, etc.).
 
-## Contributing
-
+## 🤝 Contributing
 Contributions are welcome. When proposing changes, please:
 - Open an issue to discuss the change
 - Send small, focused PRs with tests where applicable
 
-## Author
-- Name: [Your Name Here]
-- Email: [you@example.com]
-- GitHub: [github.com/yourusername]
+## 👤 Author
+- Name: Zefasil Mulu
+- Email: zefasilmulu@gmail.com
+- GitHub: https://github.com/zefasil20
 
 If you are a recruiter or lecturer: feel free to ask for a walkthrough or a focused summary of design/implementation choices.
 
